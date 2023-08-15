@@ -1,5 +1,4 @@
 CC = g++ -Wall
 
 all:
-	$(CC) GLlotus.cpp veinTexture.cpp lotusObject.cpp gradientTexture.cpp Texture.cpp -o GLlotus -L/usr/X11R6/lib -lm -lGL -lGLU -lXxf86vm -lX11
-
+	$(CC) -I/opt/homebrew/include/ -L/opt/homebrew/lib -lSDL2 -framework OpenGL GLlotus.cpp veinTexture.cpp lotusObject.cpp gradientTexture.cpp Texture.cpp -o GLlotus
