@@ -1,4 +1,4 @@
 CC = g++ -Wall
 
 all:
-	$(CC) -I/opt/homebrew/include/ -L/opt/homebrew/lib -lSDL2 -framework OpenGL GLlotus.cpp veinTexture.cpp lotusObject.cpp gradientTexture.cpp Texture.cpp -o GLlotus
+	$(CC) -std=c++20 -I/opt/homebrew/include/ -L/opt/homebrew/lib -lglfw -lglew -framework OpenGL GLlotus.cpp veinTexture.cpp lotusObject.cpp gradientTexture.cpp Texture.cpp shader.cpp -o GLlotus 

@@ -11,27 +11,16 @@
 #include <GL/glu.h>
 #endif
 
+#include <iostream>
+
 #include "veinTexture.h"
+#include "gradientTexture.h"
 
-GLuint *tex;
+#include "lotusObject.h"
 
-#define MAX_VERTICES 10000
-#define MAX_FACES    5000
-#define MAX_NORMS    5000
-#define MAX_PETALS   32
 
-typedef struct mesh {
-	float vertices[MAX_VERTICES][3];
-	int vertex_count;
-	int faces[MAX_FACES][4];
-	int face_count;
-	float normals[MAX_NORMS][3];
-} mesh;
 
-mesh lotus[MAX_PETALS];
-int petal_count = 0;
-
-GLvoid CalculateVectorNormal(int indx_lotus, int indx_face) {
+GLvoid lotusObject :: CalculateVectorNormal(int indx_lotus, int indx_face) {
     GLfloat Qx, Qy, Qz, Px, Py, Pz;
 	GLfloat fVert1[3], fVert2[3], fVert3[3];
 
@@ -60,7 +49,7 @@ GLvoid CalculateVectorNormal(int indx_lotus, int indx_face) {
 
 }
 
-void meshDuplicate(int indx_old, int indx_new) {
+void lotusObject :: meshDuplicate(int indx_old, int indx_new) {
 	int i;
 	for(i=0;i<lotus[indx_old].vertex_count;i++) {
 
@@ -81,7 +70,7 @@ void meshDuplicate(int indx_old, int indx_new) {
 	lotus[indx_new].face_count = lotus[indx_old].face_count;
 }
 
-void doZRotation(int indx, float angle) {
+void lotusObject :: doZRotation(int indx, float angle) {
 	float c = cos(angle);
 	float s = sin(angle);
 	float x_new, y_new;
@@ -103,7 +92,7 @@ void doZRotation(int indx, float angle) {
 
 }
 
-void doYRotation(int indx, float angle) {
+void lotusObject :: doYRotation(int indx, float angle) {
 	float c = cos(angle);
 	float s = sin(angle);
 	float x_new, z_new;
@@ -125,9 +114,11 @@ void doYRotation(int indx, float angle) {
 
 }
 
+
+
 /*ellipticalConnect produces the vertices along an elliptical path between points (v1_x,v1_y,0) and
  (v2_x,v2_y,0) in 'segments' intervals.*/
-void ellipticalConnect(int indx, float a, float v1_x, float v1_y, float v2_x,float v2_y, int segments) {
+void lotusObject :: ellipticalConnect(int indx, float a, float v1_x, float v1_y, float v2_x,float v2_y, int segments) {
 
 	float step, h, k, b, j, z;
 	int i;
@@ -154,7 +145,7 @@ void ellipticalConnect(int indx, float a, float v1_x, float v1_y, float v2_x,flo
 /*createPetalVertices calculates the edge of the petal using the cubic formula: y = a + bx + cx^2 + dx^3
  and its negative. x is in the range 'start' to 'end' over 'x_seg' number of intervals. Using the edge
  defined by the cubic formulas it calls ellipticalConnect to fill in the interior vertices */
-void createPetalVertices(int indx, float a, float b,float c,float d, int x_seg, int y_seg, float start, float end) {
+void lotusObject :: createPetalVertices(int indx, float a, float b,float c,float d, int x_seg, int y_seg, float start, float end) {
 	float step, curve_pt, j;
 	int i;
 
@@ -178,7 +169,7 @@ indx tells the function where to put the data in the array lotus
 x_segments is the number of polygon segments along the length of each petal
 y_segments is the number of polygon segments across the width of each petal
 */
-void makePetal(int indx, int x_seg, int y_seg) {
+mesh lotusObject :: makePetal(int indx, int x_seg, int y_seg) {
 	int number_of_faces, j;
 
 	float a_cubic = 1.0f;
@@ -205,7 +196,16 @@ void makePetal(int indx, int x_seg, int y_seg) {
 			lotus[indx].face_count++;
 		}
 
-	petal_count++;	
+	/*for (int i=0;i<lotus[indx].vertex_count;i++)
+	{
+		std::cout << "v " << lotus[indx].vertices[i][0] << ", " << lotus[indx].vertices[i][1] << ", " << lotus[indx].vertices[i][2] << std::endl;
+	}
+	for (int i=0;i<lotus[indx].face_count;i++)
+	{
+		std::cout << "f " << lotus[indx].faces[i][0] +1 << ", " << lotus[indx].faces[i][1] +1 << ", " << lotus[indx].faces[i][2] +1 << ", " << lotus[indx].faces[i][3]+1 << std::endl;
+	}*/
+	petal_count++;
+	return lotus[indx];
 }
 
 /*createLotus fills the mesh array lotus up with data for drawing a lotus bloom.
@@ -215,7 +215,7 @@ base_numb is the number of petals in the first layer.
 petal_layers is the number of layers of petals.
 x_segments is the number of polygon segments along the length of each petal
 y_segments is the number of polygon segments across the width of each petal*/
-void createLotus(int base_numb, int petal_layers, int x_segments, int y_segments) {
+void lotusObject :: createLotus(int base_numb, int petal_layers, int x_segments, int y_segments) {
 	int i,j;
 	int layer_decrease = 1;
 	float first_layer_tilt = 0.2;
@@ -224,7 +224,7 @@ void createLotus(int base_numb, int petal_layers, int x_segments, int y_segments
 	/*Create one petal*/
 	makePetal(0, x_segments, y_segments);
 	
-	tex = vt.createGLTexture();
+	//tex = vt.createGLTexture();
 
 	/*Copy the created petal and rotated to make flower.*/
 	for(i=0;i<petal_layers;i++)
@@ -236,37 +236,10 @@ void createLotus(int base_numb, int petal_layers, int x_segments, int y_segments
 			doZRotation(petal_count,j*(6.28/(base_numb-i)));
 			petal_count++;
 		}
+
+
 }
 
-/*drawLotus takes the data in the mesh array lotus and draws the faces and textures them. */
-void drawLotus() {
-
-	int h,i,j;
-	float x,y,z;
-	for(h=1;h<petal_count;h++) {
-
-    
-		for(i=0;i<lotus[h].face_count;i++) {
-			glBindTexture(GL_TEXTURE_2D, tex[i]);
-			glBegin(GL_QUADS);
-			
-			for(j=0;j<4;j++) {
-					
-				glNormal3f(lotus[h].normals[i][0],lotus[h].normals[i][1],lotus[h].normals[i][2]);
-				if(j==0) glTexCoord2f(0.0f, 0.0f);
-				if(j==1) glTexCoord2f(1.0f, 0.0f);
-				if(j==2) glTexCoord2f(1.0f, 1.0f);
-				if(j==3) glTexCoord2f(0.0f, 1.0f);	
-					
-				x = lotus[h].vertices[lotus[h].faces[i][j]][0];
-				y = lotus[h].vertices[lotus[h].faces[i][j]][1];
-				z = lotus[h].vertices[lotus[h].faces[i][j]][2];	
-				glVertex3f(x, y, z);
-					
-			}
-			glEnd();
-		}
-			
-			
-	}
+lotusObject :: lotusObject(int base_numb, int petal_layers, int x_segments, int y_segments) {
+	createLotus(base_numb, petal_layers, x_segments, y_segments);
 }

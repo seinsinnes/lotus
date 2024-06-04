@@ -1,4 +1,5 @@
-#include "gradientTexture.h"
+#include <random>
+#include "Texture.h"
 
 typedef struct Particle {
 	int life; /*Whether the particle is active and how big it is*/
@@ -9,11 +10,9 @@ typedef struct Particle {
 } Particle;
 
 
-class veinTexture: public gradientTexture {
+class veinTexture: public Texture {
 	public:
 		veinTexture(int x_seg, int y_seg, int particle_num = 18, float vein_colour_red = 0.95f , float vein_colour_green = 0.55f, float vein_colour_blue = 0.8f,float vein_colour_alpha = 1.0f);
-
-		GLuint *createGLTexture();
 
 	protected:
 		virtual void makeTexture();
@@ -22,6 +21,10 @@ class veinTexture: public gradientTexture {
 
 		int n_particles;
 		float vein_colour[4];
+
+		std::random_device rd{};
+    	std::mt19937 gen{rd()};
+		std::normal_distribution<float> d{0.0, 2.0};
 
 		Particle *particles; /* This array will contain the data on
 		 			the drawing particles - current position and direction and aliveness */

@@ -1,3 +1,6 @@
+#ifndef TEXTURE_HEADER_H
+#define TEXTURE_HEADER_H
+
 
 #define MAX_X_SEGMENTS 24
 #define MAX_Y_SEGMENTS 24
@@ -6,6 +9,7 @@
 class Texture {
 	public:
 		GLuint *createGLTexture();
+		Texture(int x_seg, int y_seg);
 	protected:
 		int x_segments;
 		int y_segments;
@@ -18,3 +22,4 @@ class Texture {
 	
 	
 };
+#endif

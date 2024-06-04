@@ -31,3 +31,9 @@ GLuint *Texture::createGLTexture() {
 void Texture::makeTexture() {
 
 }
+
+Texture::Texture(int x_seg, int y_seg) {
+	x_segments = x_seg;
+	y_segments = y_seg;
+}
+
