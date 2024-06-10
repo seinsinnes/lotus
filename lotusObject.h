@@ -1,5 +1,4 @@
-#include "gradientTexture.h"
-#include "veinTexture.h"
+#include "Texture.h"
 
 #define MAX_VERTICES 10000
 #define MAX_FACES    5000
@@ -25,8 +24,8 @@ class lotusObject {
 	
 	private:
 
-        gradientTexture *gradtex;
-        veinTexture *veintex;
+        Texture *gradtex;
+        Texture *veintex;
         GLuint texPetal[2];
         GLvoid CalculateVectorNormal(int indx_lotus, int indx_face);
         void meshDuplicate(int indx_old, int indx_new);
