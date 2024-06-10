@@ -1,3 +1,5 @@
+#ifndef VEINTEXTURE_HEADER_H
+#define VEINTEXTURE_HEADER_H
 #include <random>
 #include "Texture.h"
 
@@ -12,7 +14,7 @@ typedef struct Particle {
 
 class veinTexture: public Texture {
 	public:
-		veinTexture(int x_seg, int y_seg, int particle_num = 18, float vein_colour_red = 0.95f , float vein_colour_green = 0.55f, float vein_colour_blue = 0.8f,float vein_colour_alpha = 1.0f);
+		veinTexture( int particle_num = 18, float vein_colour_red = 0.95f , float vein_colour_green = 0.55f, float vein_colour_blue = 0.8f,float vein_colour_alpha = 1.0f);
 
 	protected:
 		virtual void makeTexture();
@@ -37,3 +39,4 @@ class veinTexture: public Texture {
 
 
 
+#endif

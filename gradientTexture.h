@@ -1,3 +1,6 @@
+#ifndef GRADIENTTEXTURE_HEADER_H
+#define GRADIENTTEXTURE_HEADER_H
+
 #include "Texture.h"
 
 class gradientTexture: public Texture {
@@ -8,3 +11,5 @@ class gradientTexture: public Texture {
 		protected:
 			virtual void makeTexture();
 };
+
+#endif

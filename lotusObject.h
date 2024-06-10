@@ -1,3 +1,5 @@
+#include "gradientTexture.h"
+#include "veinTexture.h"
 
 #define MAX_VERTICES 10000
 #define MAX_FACES    5000
@@ -18,10 +20,14 @@ class lotusObject {
 		lotusObject(int base_numb, int petal_layers, int x_segments, int y_segments);
         int petal_count = 0;
         mesh lotus[MAX_PETALS];
+        int m_x_segments;
+        int m_y_segments;
 	
 	private:
-        GLuint *texPetal;
-        GLuint *texPetalVeins;
+
+        gradientTexture *gradtex;
+        veinTexture *veintex;
+        GLuint texPetal[2];
         GLvoid CalculateVectorNormal(int indx_lotus, int indx_face);
         void meshDuplicate(int indx_old, int indx_new);
         void doZRotation(int indx, float angle);

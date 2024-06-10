@@ -219,12 +219,21 @@ void lotusObject :: createLotus(int base_numb, int petal_layers, int x_segments,
 	int i,j;
 	int layer_decrease = 1;
 	float first_layer_tilt = 0.2;
-	veinTexture vt(x_segments, y_segments, 18);
+
+	veintex = new veinTexture(18);
+	gradtex = new gradientTexture();
 
 	/*Create one petal*/
 	makePetal(0, x_segments, y_segments);
+
 	
-	//tex = vt.createGLTexture();
+	glActiveTexture(GL_TEXTURE0);
+	glGenTextures(1, &texPetal[0]);
+	veintex->createGLTexture(texPetal[0]);
+
+	glActiveTexture(GL_TEXTURE1);
+	glGenTextures(1, &texPetal[1]);
+	gradtex->createGLTexture(texPetal[1]);
 
 	/*Copy the created petal and rotated to make flower.*/
 	for(i=0;i<petal_layers;i++)
@@ -241,5 +250,8 @@ void lotusObject :: createLotus(int base_numb, int petal_layers, int x_segments,
 }
 
 lotusObject :: lotusObject(int base_numb, int petal_layers, int x_segments, int y_segments) {
+	m_x_segments = x_segments;
+	m_y_segments = y_segments;
+
 	createLotus(base_numb, petal_layers, x_segments, y_segments);
 }
