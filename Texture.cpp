@@ -15,8 +15,8 @@ GLuint Texture::createGLTexture(GLuint texID) {
 
 
 	glBindTexture(GL_TEXTURE_2D, texID);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);   	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);   	
 	glTexImage2D(GL_TEXTURE_2D,0, GL_RGBA, SEGMENT_DETAIL, SEGMENT_DETAIL, 0, GL_RGBA, GL_FLOAT, &image);
 	
 	return texID;

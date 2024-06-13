@@ -8,11 +8,26 @@ out vec4 color;
 uniform sampler2D tex1;
 uniform sampler2D tex2;
 
+const int blurSamples = 16;
+const float blurRadius = 0.001;
+const vec2 blurDirection = vec2(1,0);
+
 void main(){
 
-    vec4 t1 = texture(tex1, tc);
+    //vec4 t1 = texture(tex1, tc);
+    vec4 t1 = vec4(0,0,0,0);
+
     vec4 t2 = texture(tex2, tc);
 
+    float v;
+
+    for( int i=0;i<blurSamples;i++ )
+    {
+                v = (-1.0 + 1.0*i)*blurRadius;
+                t1 += texture( tex1, tc+(v*blurDirection));
+    }
+
+    t1 = t1/float(blurSamples);
 
     color =  mix(t2, t1, t1.a);
 

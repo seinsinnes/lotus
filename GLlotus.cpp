@@ -146,7 +146,8 @@ int main( void )
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	//glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.122f, 0.188f, 0.369f, 0.0f);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
